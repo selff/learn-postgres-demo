@@ -1,0 +1,21 @@
+{
+    "name": "learn-postgres-demo",
+    "type": "demo",
+    "description": "Learn PostgresSQL with this demo",
+    "keywords": ["demo", "postgresql", "pgsql", "pdo", "database"],
+    "homepage": "https://github.com/selff/learn-postgres-demo",
+    "license": "BSD-2",
+    "authors": [
+        {
+            "name": "Andrey Selikoff",
+            "homepage": "http://selikoff.ru"
+        }
+    ],
+    "require": {
+    	"php": ">=5.6.0",
+    	"ext-pdo_pgsql": "*"
+	},
+    "autoload": {
+        "psr-4": {"LearnPSQL\\": "src/"}
+    }
+}
