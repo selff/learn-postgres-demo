@@ -30,12 +30,12 @@ set_exception_handler(function ($e) {
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Learn PostgresSQL. Demo</title>
+        <title>Learn PostgreSQL. Demo</title>
         <link rel="stylesheet" href="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/css/bootstrap.css">
     </head>
     <body>
     	<div class="container">
-    	<h1>Learn PostgresSQL. Demo</h1>
+    	<h1>Learn PostgreSQL. Demo</h1>
 <?php
 
 $Sql = new PostgresDemo($pdo);

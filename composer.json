@@ -1,7 +1,7 @@
 {
     "name": "learn-postgres-demo",
     "type": "demo",
-    "description": "Study PostgresSQL via demonstration queries",
+    "description": "Study PostgreSQL via demonstration queries",
     "keywords": ["demo", "postgresql", "pgsql", "pdo", "database"],
     "homepage": "https://github.com/selff/learn-postgres-demo",
     "license": "BSD-2",

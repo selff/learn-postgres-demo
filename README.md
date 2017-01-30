@@ -1,8 +1,8 @@
-#Learn PostgresSQL. Demo
+#Learn PostgreSQL. Demo
 
 ## Overview
 
-Study PostgresSQL via demonstration queries.
+Study PostgreSQL via demonstration queries.
 You can add your own queries to the executable file index.php and analyze their results.
 
 ## Start
