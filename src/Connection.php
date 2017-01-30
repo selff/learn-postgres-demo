@@ -11,6 +11,11 @@ class Connection {
      * @var type 
      */
     private static $conn;
+    public static $filename;
+
+    public static function init($filename){
+        self::$filename = $filename;
+    }
 
     /**
      * Connect to the database and return an instance of \PDO object
@@ -19,7 +24,7 @@ class Connection {
      */
     public function connect() {
     	// read parameters in the ini configuration file
-        $params = parse_ini_file('database.ini');
+        $params = parse_ini_file(self::$filename);
         if ($params === false) {
             throw new \Exception("Error reading database configuration file");
         }

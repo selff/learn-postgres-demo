@@ -53,10 +53,11 @@ class PostgresDemo {
         else return 'execute';
     }
 
-    public function go($title,$sql) {
+    public function go($title,$sql,$run=true) {
         
         $this->inc++;
         echo "<h3>{$this->inc}. {$title}</h3>";
+        if (false === $run) { return; }
         $string = $this->whichQuery($sql);
         $res = $this->$string($sql);
         $table = new OutputTable(); 

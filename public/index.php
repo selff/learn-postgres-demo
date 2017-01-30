@@ -10,6 +10,7 @@ use LearnPSQL\PostgresDemo as PostgresDemo;
  
 try {
     // connect to the PostgreSQL database
+    Connection::init('../ini/database.ini');
     $pdo = Connection::get()->connect();
 
 } catch (\PDOException $e) {
@@ -39,7 +40,7 @@ set_exception_handler(function ($e) {
 
 $Sql = new PostgresDemo($pdo);
 
-$Sql->loadSql('../src/schemas.sql');
+$Sql->loadSql('../ini/schemas.sql');
 
 $Sql->go(
 	'Персонал',"
@@ -100,8 +101,7 @@ $Sql->go(
 	");
 
 
-$Sql->go(
-	'Coming soon...',"",false);
+$Sql->go('Coming soon...',"SELECT",false);
 
 ?>
 	</div>
