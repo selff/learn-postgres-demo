@@ -13,7 +13,7 @@ $ git clone https://github.com/selff/learn-postgres-demo.git
 $ cd learn-postgres-demo
 ```
 
-Change database coonection data in file learn-postgres-demo/ini/database.ini
+Change database connection data in file ./learn-postgres-demo/ini/database.ini
 
 Open in browser http://localhost/learn-postgres-demo/
 
