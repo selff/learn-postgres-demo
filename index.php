@@ -100,6 +100,7 @@ $Sql->go(
 	) SELECT a FROM f
 	");
 
+$Sql->go('Test',"SELECT EXTRACT(CENTURY FROM NOW())");
 
 $Sql->go('Coming soon...',"SELECT",false);
 
