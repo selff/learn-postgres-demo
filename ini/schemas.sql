@@ -7,9 +7,9 @@ CREATE TABLE IF NOT EXISTS person (
 DROP TABLE work;
 CREATE TABLE IF NOT EXISTS work (
 	id        serial PRIMARY KEY,
-    ceh_id    int, 	 
+    office_id int, 	 
     person_id int, 
-    oklad     int
+    salary    int
 );
 DROP TABLE edu;
 CREATE TABLE IF NOT EXISTS edu (
@@ -18,6 +18,14 @@ CREATE TABLE IF NOT EXISTS edu (
     person_id int, 
     finished  date
 );
+DROP TABLE log;
+CREATE TABLE IF NOT EXISTS log (
+    id        serial PRIMARY KEY, 
+    person_id int,
+    action    text, 
+    created   timestamp(6)
+);
+
 INSERT INTO person VALUES 
 	(1,'Nick','1977-01-01'),(2,'Pit','1988-02-01'),(3,'Mick','1999-04-01'),(4,'Andy','1987-11-07'),(5,'John','1984-07-21'),(6,'Alex','1979-10-08'),(7,'Mary','1983-09-21'),(8,'Lizy','1995-04-21'),(9,'Kate','1977-01-31');
 INSERT INTO work VALUES 

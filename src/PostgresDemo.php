@@ -49,6 +49,7 @@ class PostgresDemo {
     private function whichQuery($sql){
         if (preg_match("/^SELECT /", ltrim($sql))) return 'query';
         elseif (preg_match("/^UPDATE /", ltrim($sql))) return 'execute';
+        elseif (preg_match("/^INSERT /", ltrim($sql))) return 'execute';
         elseif (preg_match("/^WITH /", ltrim($sql))) return 'query';
         else return 'execute';
     }

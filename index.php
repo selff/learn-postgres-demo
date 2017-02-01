@@ -44,7 +44,7 @@ $Sql->loadSql('./ini/schemas.sql');
 
 $Sql->go(
 	'Персонал',"
-	SELECT p.*,w.ceh_id,w.oklad,e.vuz_id,e.finished 
+	SELECT p.*,w.office_id,w.salary,e.vuz_id,e.finished 
 	FROM work w, person p 
 	LEFT JOIN edu e ON e.person_id = p.id 
 	WHERE p.id = w.person_id;
@@ -59,7 +59,7 @@ $Sql->go(
 
 $Sql->go(
 	'Средняя ЗП по цехам персонала младше 30 лет',"
-	SELECT w.ceh_id,ROUND(AVG(w.oklad)) as avg_zp , count(p.id) as cntr
+	SELECT w.office_id,ROUND(AVG(w.salary)) as avg_zp , count(p.id) as cntr
 	FROM work w 
 	RIGHT JOIN (
 		SELECT id 
@@ -67,32 +67,57 @@ $Sql->go(
 		GROUP BY id 
 		HAVING (DATE_PART('year',NOW())-DATE_PART('year',born))<31
 	) p ON p.id=w.person_id 
- 	GROUP BY w.ceh_id;
+ 	GROUP BY w.office_id;
  	");
+
+$Sql->go(
+	'Создадим процедуру для логирования изменения зарплаты',"
+	CREATE OR REPLACE FUNCTION add_to_log() RETURNS TRIGGER AS \$up_person\$
+    BEGIN
+    	IF NEW.salary <> OLD.salary THEN
+    	INSERT INTO log(person_id,action,created)
+ 		VALUES(OLD.person_id,CONCAT_WS(' ','User salary changed from',OLD.salary,'to',NEW.salary),now());
+ 		END IF;
+ 		RETURN NEW;
+ 	END;
+ 	\$up_person\$ LANGUAGE plpgsql;
+	");
+
+$Sql->go(
+	'Создадим триггер для фиксации изменения зарплаты',"
+	CREATE TRIGGER up_person
+	AFTER UPDATE ON work FOR EACH ROW EXECUTE PROCEDURE add_to_log();
+	");
+
 
 $Sql->go(
 	'Повысить ЗП на 10% персоналу моложе 31 года',"
 	UPDATE work SET 
-	  oklad = oklad * 1.1
+	  salary = salary * 1.1
 	FROM (
 		SELECT id 
 		FROM person 
 		GROUP BY id 
-		HAVING (DATE_PART('year',NOW())-DATE_PART('year',born))<31
+		HAVING ( DATE_PART('year', NOW() ) - DATE_PART('year', born ) ) < 31
 	) as young
 	WHERE person_id = young.id
 	");
 
 $Sql->go(
-	'И снова персонал',"
-	SELECT p.*,w.ceh_id,w.oklad,e.vuz_id,e.finished 
+	'И снова выведем персонал',"
+	SELECT p.*,w.office_id,w.salary,e.vuz_id,e.finished 
 	FROM work w, person p 
 	LEFT JOIN edu e ON e.person_id = p.id 
 	WHERE p.id = w.person_id;
 	"); 
 
 $Sql->go(
-	'Find Fibonacci with recurcive',"
+	'И выведем лог',"
+	SELECT * FROM log;
+	"); 
+
+$Sql->go(
+	'Найти Фибоначи рекурсией',"
 	WITH recursive f as (
 	    SELECT 0 as a, 1 as b
 	    UNION ALL
@@ -100,7 +125,9 @@ $Sql->go(
 	) SELECT a FROM f
 	");
 
-$Sql->go('Test',"SELECT EXTRACT(CENTURY FROM NOW())");
+$Sql->go('EXTRACT(CENTURY FROM NOW())',"SELECT EXTRACT(CENTURY FROM NOW())");
+
+
 
 $Sql->go('Coming soon...',"SELECT",false);
 
