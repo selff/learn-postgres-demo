@@ -1,6 +1,6 @@
 <?php
 
-require '../vendor/autoload.php';
+require './vendor/autoload.php';
 //require_once('src/Connection.php');
 //require_once('src/PostgresDemo.php');
 //require_once('src/OutputTable.php');
@@ -10,7 +10,7 @@ use LearnPSQL\PostgresDemo as PostgresDemo;
  
 try {
     // connect to the PostgreSQL database
-    Connection::init('../ini/database.ini');
+    Connection::init('./ini/database.ini');
     $pdo = Connection::get()->connect();
 
 } catch (\PDOException $e) {
@@ -40,7 +40,7 @@ set_exception_handler(function ($e) {
 
 $Sql = new PostgresDemo($pdo);
 
-$Sql->loadSql('../ini/schemas.sql');
+$Sql->loadSql('./ini/schemas.sql');
 
 $Sql->go(
 	'Персонал',"
