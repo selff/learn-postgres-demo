@@ -137,7 +137,7 @@ $Sql->go('Курсор создан',"
 
 $Sql->go('Используем курсор 1. Начинаем транзакцию', "BEGIN;");
 $Sql->go('Используем курсор 2',	"SELECT * FROM myfunc('funccursor');");
-$Sql->go('Используем курсор 3',	"FETCH ALL FROM funccursor;");
+$Sql->go('Используем курсор 3',	"FETCH FORWARD 10 FROM funccursor;");
 $Sql->go('Используем курсор 4',	"COMMIT;");
 
 
