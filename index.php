@@ -129,7 +129,7 @@ $Sql->go(
 $Sql->go('Курсор создан',"
 	CREATE OR REPLACE FUNCTION myfunc(refcursor) RETURNS refcursor AS \$\$
 	BEGIN
-	    OPEN $1 FOR SELECT * FROM person;
+	    OPEN $1 FOR SELECT * FROM person ORDER BY name ASC;
 	    RETURN $1;
 	END;
 	\$\$ LANGUAGE plpgsql;
