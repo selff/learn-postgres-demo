@@ -35,7 +35,14 @@ set_exception_handler(function ($e) {
     </head>
     <body>
     	<div class="container">
-    	<h1>Learn PostgreSQL. Demo</h1>
+    	<div class="row">
+    	<div class="col-md-8">
+    	<h1 style="padding-top:40px;margin-bottom: 60px">Learn PostgreSQL. Demo</h1>
+    	</div>
+    	</div>
+    	<div class="row">
+    	<div class="col-md-8">
+    	
 <?php
 
 $Sql = new PostgresDemo($pdo);
@@ -47,19 +54,21 @@ $Sql->go(
 	SELECT p.*,w.office_id,w.salary,e.vuz_id,e.finished 
 	FROM work w, person p 
 	LEFT JOIN edu e ON e.person_id = p.id 
-	WHERE p.id = w.person_id;
+	WHERE p.id = w.person_id
+	ORDER BY p.name ASC;
 	"); 
 
 $Sql->go(
 	'Все кто еще не закончил ВУЗ',"
 	SELECT p.name,e.finished 
-	FROM person p, edu e 
-	WHERE e.person_id = p.id AND e.finished > NOW();
+	FROM person p LEFT JOIN edu e ON e.person_id = p.id
+	WHERE e.finished > NOW() OR e.person_id IS NULL
+	ORDER BY p.name ASC;
 	");
 
 $Sql->go(
-	'Средняя ЗП по цехам персонала младше 30 лет',"
-	SELECT w.office_id,ROUND(AVG(w.salary)) as avg_zp , count(p.id) as cntr
+	'Средняя ЗП по офисам персонала младше 30 лет',"
+	SELECT w.office_id,ROUND(AVG(w.salary)) as avg_zp , count(p.id) as persons
 	FROM work w 
 	RIGHT JOIN (
 		SELECT id 
@@ -108,13 +117,29 @@ $Sql->go(
 	SELECT p.*,w.office_id,w.salary,e.vuz_id,e.finished 
 	FROM work w, person p 
 	LEFT JOIN edu e ON e.person_id = p.id 
-	WHERE p.id = w.person_id;
+	WHERE p.id = w.person_id
+	ORDER BY p.name ASC;
 	"); 
 
 $Sql->go(
 	'И выведем лог',"
 	SELECT * FROM log;
 	"); 
+
+$Sql->go('Курсор создан',"
+	CREATE OR REPLACE FUNCTION myfunc(refcursor) RETURNS refcursor AS \$\$
+	BEGIN
+	    OPEN $1 FOR SELECT * FROM person;
+	    RETURN $1;
+	END;
+	\$\$ LANGUAGE plpgsql;
+	");
+
+$Sql->go('Используем курсор 1. Начинаем транзакцию', "BEGIN;");
+$Sql->go('Используем курсор 2',	"SELECT * FROM myfunc('funccursor');");
+$Sql->go('Используем курсор 3',	"FETCH ALL FROM funccursor;");
+$Sql->go('Используем курсор 4',	"COMMIT;");
+
 
 $Sql->go(
 	'Найти Фибоначи рекурсией',"
@@ -125,13 +150,11 @@ $Sql->go(
 	) SELECT a FROM f
 	");
 
-$Sql->go('EXTRACT(CENTURY FROM NOW())',"SELECT EXTRACT(CENTURY FROM NOW())");
 
-
-
-$Sql->go('Coming soon...',"SELECT",false);
+$Sql->go('Coming soon...',"",false);
 
 ?>
 	</div>
-</body>
-</html>
+	</div>
+	</div>
+</body></html>

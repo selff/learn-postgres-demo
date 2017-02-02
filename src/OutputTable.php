@@ -41,12 +41,12 @@ class OutputTable
      * @return $string
      */
 	function outputData(){
-		$output = "<table cellpadding=2 cellspacing=2><tr>";
+		$output = "<table class=\"table\" cellpadding=\"2\" cellspacing=\"2\"><tr>";
 		foreach ($this->columns as $key => $value) { $output .= "<th>{$value}</th>"; }
 		$output .= "</tr>";
 		foreach ($this->rows as $i => $row) {
 			$output .= "<tr>";
-			foreach ($this->columns as $column) { $output .= "<td style=\"border:1px solid #ccc\">{$row[$column]}</td>"; }
+			foreach ($this->columns as $column) { $output .= "<td>{$row[$column]}</td>"; }
 			$output .= "</tr>";
 		}
 		$output .= "</table>";

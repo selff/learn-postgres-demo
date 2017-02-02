@@ -51,6 +51,7 @@ class PostgresDemo {
         elseif (preg_match("/^UPDATE /", ltrim($sql))) return 'execute';
         elseif (preg_match("/^INSERT /", ltrim($sql))) return 'execute';
         elseif (preg_match("/^WITH /", ltrim($sql))) return 'query';
+        elseif (preg_match("/^FETCH /", ltrim($sql))) return 'query';
         else return 'execute';
     }
 
