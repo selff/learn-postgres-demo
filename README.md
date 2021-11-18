@@ -10,7 +10,7 @@ Add queries should be using the following syntax:
 $Sql->go('This is a current century',"SELECT EXTRACT(CENTURY FROM NOW())");
 ```
 
-See a demo http://selikoff.ru/LearnPostgreSQL.html
+See a demo http://selikoff.ru/demo/learn-postgres-demo/
 
 ## Start
 
